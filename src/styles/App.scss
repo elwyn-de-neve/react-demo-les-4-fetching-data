@@ -1,0 +1,116 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2em;
+}
+
+h1 + p,
+p + p {
+  margin-top: 1em;
+}
+
+.navbar {
+  ul {
+    display: flex;
+    flex-direction: row;
+    gap: 3em;
+  }
+  li {
+    list-style-type: none;
+  }
+  .active-link {
+
+  }
+  .default-link {
+
+  }
+}
+
+.product-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 2em;
+}
+
+.product-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: black;
+  text-align: center;
+  width: 250px;
+  text-decoration: none;
+  border-radius: 5px;
+  box-shadow: 0 7px 29px 0 rgba(100, 100, 111, 0.2);
+  cursor: pointer;
+
+  div {
+    display: inherit;
+    flex-direction: inherit;
+    align-items: center;
+    gap: 1em;
+    padding: 2em;
+  }
+
+  img {
+    max-width: 100%;
+    max-height: 200px;
+  }
+
+  h3 {
+    font-weight: 500;
+    font-size: 1em;
+  }
+
+  span {
+    background-color: gainsboro;
+    padding-block: 0.5em;
+    border-radius: 0 0 5px 5px;
+  }
+}
+
+.product-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  max-width: 700px;
+
+
+  h2 {
+
+  }
+
+  img {
+    max-width: 350px;
+    padding: 2em;
+  }
+
+  p {
+  }
+
+  div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  span {
+    font-weight: 500;
+    font-size: 1.5em;
+  }
+
+  button {
+    padding: 0.75em 1.5em;
+    text-transform: uppercase;
+    width: fit-content;
+    margin-left: 3em;
+  }
+}
