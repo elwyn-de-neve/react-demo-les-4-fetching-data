@@ -1,50 +1,61 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from "react-router-dom";
 import axios from "axios";
-import ProductCard from "../../components/ProductCard/ProductCard";
-import useFetch from "../../hooks/useFetch";
 
 const Products = () => {
-    // const [ loading, setLoading ] = useState( false )
-    // const [ error, setError ] = useState( false );
-    // const [ products, setProducts ] = useState( [] );
+    const [ loading, setLoading ] = useState( false )
+    const [ error, setError ] = useState( false );
+    const [ data, setData ] = useState( [] );
 
-/*    useEffect( () => {
-        fetchData()
-    }, [] )*/
+    useEffect( () => {
+        const controller = new AbortController();
 
-    const { data, catchError, isLoading } = useFetch('https://fakestoreapi.com/products')
+        const fetchData = async () => {
+            setLoading( true );
+            try {
+                setError( false );
+                const response = await axios.get( 'https://fakestoreapi.com/products', {
+                    signal: controller.signal,
+                } );
+                setData( response.data );
+            } catch ( e ) {
+                // console.error( e )
+                setError( true )
 
-    /*const fetchData = async () => {
-        setLoading( true );
-        try {
-            const response = await axios.get( 'https://fakestoreapi.com/products' );
-            if ( response ) {
-                setProducts( response.data );
-                setError( false )
+                if(axios.isCancel(e)){
+                    console.log('The axios request was cancelled')
+                } else {
+                    console.error(e)
+                }
             }
-        } catch ( e ) {
-            if ( e ) {
-                setError( e.message )
-                setProducts( null )
-            }
-        } finally {
             setLoading( false );
-        }*/
-    // }
+        }
+        fetchData()
+
+        return function cleanup() {
+            controller.abort();
+        }
+    }, [] )
 
     return (
         <>
+            { loading && <p>Loading...</p> }
+            { error && <p>Error: Could not fetch data!</p> }
+
             <ul className="product-list">
                 { data.map( product => {
-                        return (
-                            <ProductCard
-                                key={ product.id }
-                                product={ product }
-                            />
-                        )
-                    }
-                )
-                }
+                    return (
+                        <li className="product-card" key={ product.id }>
+                            <Link to={ `/products/${ product.id }` }>
+                                <div>
+                                    <img src={ product.image } alt={ product.title }/>
+                                    <h3>{ product.title.slice( 0, 25 ) }</h3>
+                                </div>
+                                <span>€ { product.price }</span>
+                            </Link>
+                        </li>
+                    )
+                } ) }
             </ul>
         </>
     );

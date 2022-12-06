@@ -41,12 +41,17 @@ p + p {
 }
 
 .product-card {
+  list-style-type: none;
+}
+
+.product-card a {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   color: black;
   text-align: center;
   width: 250px;
+  height: 380px;
   text-decoration: none;
   border-radius: 5px;
   box-shadow: 0 7px 29px 0 rgba(100, 100, 111, 0.2);

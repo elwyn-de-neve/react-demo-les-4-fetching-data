@@ -1,40 +1,51 @@
 import React, { useEffect, useState } from 'react';
-import axios from "axios";
 import { useParams } from "react-router-dom";
+import axios from "axios";
 
 const ProductPage = () => {
-    const { id } = useParams()
     const [ loading, setLoading ] = useState( false )
     const [ error, setError ] = useState( false );
-    const [ product, setProduct ] = useState( [] );
+    const [ data, setData ] = useState( [] );
 
+    const { id } = useParams()
 
     useEffect( () => {
-        fetchData()
-    }, [] )
+        const controller = new AbortController();
 
-    const fetchData = async () => {
-        setLoading( true );
-        try {
-            const response = await axios.get( "https://fakestoreapi.com/products/" + id );
-            if ( response ) {
-                setProduct( response.data );
-                setError( false )
+        const fetchData = async () => {
+            setLoading( true );
+            try {
+                setError( false );
+                const response = await axios.get( "https://fakestoreapi.com/products/" + id , {
+                    signal: controller.signal,
+                } );
+                setData( response.data );
+            } catch ( e ) {
+                setError( true )
+
+                if(axios.isCancel(e)){
+                    console.log('The axios request was cancelled')
+                } else {
+                    console.error(e)
+                }
             }
-        } catch ( e ) {
-            if ( e ) {
-                setError( e.message )
-                setProduct( null )
-            }
-        } finally {
             setLoading( false );
         }
-    }
-    const { title, image, price, description } = product;
+        fetchData()
+
+        return function cleanup() {
+            controller.abort();
+        }
+    }, [] )
+
+    const { title, image, price, description } = data;
     return (
         <>
+            { loading && <p>Loading...</p> }
+            { error && <p>Error: Could not fetch data!</p> }
+
             <div className="product-page">
-                <img src={ image } alt={ title  }/>
+                <img src={ image } alt={ title }/>
                 <h2>{ title }</h2>
                 <p>{ description }</p>
                 <div>
