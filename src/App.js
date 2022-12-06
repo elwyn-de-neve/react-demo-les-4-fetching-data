@@ -6,6 +6,11 @@ import ProductPage from "./pages/ProductPage/ProductPage";
 import Nav from "./components/Nav/Nav";
 
 function App() {
+
+    // const addToShoppingChard = () => {
+    //     ShoppingBasket.push()
+    // }
+    // const ShoppingBasket = []
   return (
     <>
       <Nav/>

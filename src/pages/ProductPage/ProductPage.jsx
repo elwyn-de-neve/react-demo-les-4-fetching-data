@@ -8,6 +8,7 @@ const ProductPage = () => {
     const [ error, setError ] = useState( false );
     const [ product, setProduct ] = useState( [] );
 
+
     useEffect( () => {
         fetchData()
     }, [] )
